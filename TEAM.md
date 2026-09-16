@@ -7,13 +7,13 @@
 - Tên nhóm: Độc lập
 - Người đại diện : Trần Thị Thu Trang / MSSV:2A202602581
 - Tên repo: `K4-L3-DAY04-Tranthithutrang-2A202602581-PromptEngineeringToolCalling`
-- URL repo, nhánh nộp, commit chốt:
+- URL repo, nhánh nộp, commit chốt: URL: CHƯA ĐIỀN ; nhánh: `main` ; commit chốt: `15c3754`
 - Deadline áp dụng và link thông báo đổi hạn nếu có:
 
 ## Thành viên
 
 | Họ và tên | MSSV | GitHub | Vai trò và công việc | File/commit/PR |
-| Trần Thị Thu Trang | 2A202602581 | trang1987 | Làm toàn bộ project: prompt, tool declarations, eval, report và evidence | `starter_v0/artifacts/system_prompt.md`; `starter_v0/artifacts/tools.yaml`; `starter_v0/artifacts/version_log.csv`; `starter_v0/data/eval_group.json`; `starter_v0/artifacts/REPORT.md`; commit: CHƯA COMMIT; PR: N/A |
+| Trần Thị Thu Trang | 2A202602581 | trang1987 | Làm toàn bộ project: prompt, tool declarations, eval, report và evidence | `starter_v0/artifacts/system_prompt.md`; `starter_v0/artifacts/tools.yaml`; `starter_v0/artifacts/version_log.csv`; `starter_v0/data/eval_group.json`; `starter_v0/artifacts/REPORT.md`; commit: `15c3754`; PR: N/A |
 
 ## Nhận xét chung
 
@@ -28,7 +28,7 @@ Sao chép mục này cho từng thành viên.
 
 ### Trần Thị Thu Trang — 2A202602581
 
-- Phần việc và file/commit/PR: Cải thiện `starter_v0/artifacts/system_prompt.md` và `starter_v0/artifacts/tools.yaml`; tạo `starter_v0/data/eval_group.json`; cập nhật `starter_v0/artifacts/version_log.csv` và `starter_v0/artifacts/REPORT.md`; commit: CHƯA COMMIT; PR: N/A.
+- Phần việc và file/commit/PR: Cải thiện `starter_v0/artifacts/system_prompt.md` và `starter_v0/artifacts/tools.yaml`; tạo `starter_v0/data/eval_group.json`; cập nhật `starter_v0/artifacts/version_log.csv` và `starter_v0/artifacts/REPORT.md`; commit: `15c3754`; PR: N/A.
 - Quyết định, khó khăn và cách xử lý: Dùng run v0 để xác định lỗi routing, argument, missing information và confirmation; chạy lại v1-v3 cùng bộ base; loại các run có provider error khỏi evidence.
 - Điều đã học: Cần phân biệt provider error với lỗi hành vi model; phải đọc cả expected, actual tool calls và tool results; confirmation phải gắn với đúng payload hiện tại.
 - AI/công cụ đã dùng và cách kiểm tra: GitHub Copilot, Python, OpenRouter; kiểm tra bằng `run_eval.py`, JSON run artifacts, provider error count và metric summary.
