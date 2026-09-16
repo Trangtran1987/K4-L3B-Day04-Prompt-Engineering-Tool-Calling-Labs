@@ -3,5 +3,106 @@
   "dataset_role": "group",
   "description": "Template intentionally left empty. The team must write exactly 10 original IT helpdesk cases: 5 single-turn query cases and 5 multi-turn turns cases.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "cases": [
+    {
+      "id": "G01_single_device_network",
+      "phase": "B",
+      "query": "Kiểm tra network của máy LT-240.",
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "inspect_device", "args": {"asset_id": "LT-240", "check": "network"}}]},
+      "metadata": {"skill": "device_specific_check", "what_it_tests": "Một lượt: dùng đúng asset và check cụ thể."}
+    },
+    {
+      "id": "G02_single_service_staging",
+      "phase": "B",
+      "query": "Kiểm tra trạng thái email ở staging.",
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "check_service_status", "args": {"service": "email", "environment": "staging"}}]},
+      "metadata": {"skill": "service_environment", "what_it_tests": "Một lượt: giữ nguyên environment staging."}
+    },
+    {
+      "id": "G03_single_search_vpn",
+      "phase": "B",
+      "query": "Tìm hướng dẫn khắc phục VPN trên Windows.",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "search_kb", "args": {"category": "vpn"}}]},
+      "metadata": {"skill": "knowledge_search", "what_it_tests": "Một lượt: hướng dẫn phải dùng knowledge base."}
+    },
+    {
+      "id": "G04_single_user_assets",
+      "phase": "B",
+      "query": "Tra cứu tài khoản EMP-1007 và cho biết máy được cấp.",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "lookup_user", "args": {"employee_id": "EMP-1007"}}]},
+      "metadata": {"skill": "assigned_asset_listing", "what_it_tests": "Một lượt: directory lookup đủ để trả assigned assets."}
+    },
+    {
+      "id": "G05_single_format_findings",
+      "phase": "B",
+      "query": "Format findings 'disk warning' của DT-031 thành technical report tên 'DT-031 disk'.",
+      "failure_type": "unnecessary_tool",
+      "expect": {"tool_calls": [{"name": "format_incident_report", "args": {"template": "technical", "incident_title": "DT-031 disk"}}]},
+      "metadata": {"skill": "format_only", "what_it_tests": "Một lượt: format dữ liệu đã có, không lấy lại evidence."}
+    },
+    {
+      "id": "G06_multi_fill_asset",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Kiểm tra VPN trên laptop của mình."},
+        {"role": "user", "content": "Mã máy là LT-318."},
+        {"role": "user", "content": "Chỉ kiểm tra VPN trên máy đó."}
+      ],
+      "failure_type": "missing_info",
+      "expect": {"tool_calls": [{"name": "inspect_device", "args": {"asset_id": "LT-318", "check": "vpn"}}]},
+      "metadata": {"skill": "multiturn_asset_fill", "what_it_tests": "Nhiều lượt: giữ asset ID mới được cung cấp."}
+    },
+    {
+      "id": "G07_multi_carry_environment",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Email production có ổn không?"},
+        {"role": "user", "content": "Còn VPN thì sao?"},
+        {"role": "user", "content": "Chỉ kiểm tra VPN, vẫn production."}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "check_service_status", "args": {"service": "vpn", "environment": "production"}}]},
+      "metadata": {"skill": "multiturn_environment_carry", "what_it_tests": "Nhiều lượt: đổi service nhưng giữ environment."}
+    },
+    {
+      "id": "G08_multi_correct_asset",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Kiểm tra hardware máy LT-204."},
+        {"role": "user", "content": "À nhầm, là DT-031."},
+        {"role": "user", "content": "Giữ kiểm tra hardware."}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "inspect_device", "args": {"asset_id": "DT-031", "check": "hardware"}}]},
+      "metadata": {"skill": "multiturn_correction", "what_it_tests": "Nhiều lượt: giá trị sửa sau thay thế giá trị cũ."}
+    },
+    {
+      "id": "G09_multi_cancel_ticket",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Tạo ticket lỗi máy in PR-404."},
+        {"role": "user", "content": "Dừng lại, không tạo ticket."},
+        {"role": "user", "content": "Chỉ xác nhận bạn đã hiểu."}
+      ],
+      "failure_type": "unnecessary_tool",
+      "expect": {"no_tool": true, "behavior": "answer_without_tool"},
+      "metadata": {"skill": "multiturn_cancel", "what_it_tests": "Nhiều lượt: hủy mới nhất thắng yêu cầu tạo ticket cũ."}
+    },
+    {
+      "id": "G10_multi_switch_to_kb",
+      "phase": "B",
+      "turns": [
+        {"role": "user", "content": "Kiểm tra trạng thái Wi-Fi production."},
+        {"role": "user", "content": "Không xem status nữa, tìm hướng dẫn Wi-Fi."},
+        {"role": "user", "content": "Chỉ cần bài cho Windows."}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "search_kb", "args": {"category": "wifi"}}]},
+      "metadata": {"skill": "multiturn_intent_switch", "what_it_tests": "Nhiều lượt: intent mới thay intent status cũ."}
+    }
+  ]
 }
